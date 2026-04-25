@@ -6,7 +6,4 @@ services:
       - /tmp/music:/music
     environment:
       - PLAYLISTS=https://open.spotify.com/playlist/5Ez8elMwhbdzviNPalVkOE?si=bb799f7541574847,https://open.spotify.com/playlist/7Lg38dS7n9e9TLzJ7XWHTH?si=1797d533544b449b
-      # optional, recommended for better performance especially first time.
-      - SPOTIFY_CLIENT_ID=1727cc9ba 390486f8a6076c65a0a71da
-      - SPOTIFY_CLIENT_SECRET=4f7e5cd9eeeb4f119de6b66ca1c28704
     restart: unless-stopped
