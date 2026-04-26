@@ -12,6 +12,8 @@ sync_playlists() {
 
     echo "Syncing playlist: $name"
 
+    cd /music
+
     spotdl sync "$playlist" \
       --threads 1 \
       --save-file "/music/.spotdl/${name}.spotdl" \
