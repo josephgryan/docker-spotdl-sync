@@ -1,18 +1,27 @@
 #!/bin/sh
-
-export SPOTIPY_CLIENT_ID="$SPOTIFY_CLIENT_ID"
-export SPOTIPY_CLIENT_SECRET="$SPOTIFY_CLIENT_SECRET"
+set -e
 
 sync_playlists() {
   echo "$PLAYLISTS" | tr ',' '\n' | while IFS= read -r playlist; do
-    clean_name=$(basename "$playlist" | cut -d'?' -f1)
+    playlist=$(echo "$playlist" | tr -d '[:space:]')
+    clean_name=$(echo "$playlist" | sed 's|.*/playlist/||' | cut -d'?' -f1)
+    output_dir="/music/Playlists/${clean_name}"
+
+    mkdir -p "$output_dir" /music/.spotdl
+
+    echo "Syncing playlist: $clean_name"
+
     spotdl sync "$playlist" \
       --threads 1 \
-      --save-file "/music/${clean_name}.spotdl"
+      --save-file "/music/.spotdl/${clean_name}.spotdl" \
+      --m3u "/music/Playlists/${clean_name}.m3u" \
+      --output "${output_dir}/{list-position} - {artists} - {title}.{output-ext}" \
+      --format mp3
   done
 }
 
-sync_playlists
-
-echo "0 */2 * * * /app/entrypoint.sh" | crontab -
-crond -f
+while true; do
+  sync_playlists
+  echo "Sync complete. Sleeping 2 hours..."
+  sleep 7200
+done
