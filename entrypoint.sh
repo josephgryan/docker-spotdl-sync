@@ -30,12 +30,12 @@ sync_playlists() {
 
     echo "Syncing playlist: $name"
 
-    spotdl sync "$playlist" \
-      --threads "$THREADS" \
-      --save-file ".spotdl/${name}.spotdl" \
-      --m3u "/music/${name}.m3u" \
-      --output "Playlists/${name}/{list-position} - {artists} - {title}.{output-ext}" \
-      --format mp3
+spotdl sync "$playlist" \
+  --threads "$THREADS" \
+  --save-file ".spotdl/${name}.spotdl" \
+  --m3u "${name}.m3u" \
+  --output "Playlists/${name}/{list-position} - {artists} - {title}.{output-ext}" \
+  --format mp3
   done
 }
 
