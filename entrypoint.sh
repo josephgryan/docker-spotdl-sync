@@ -33,7 +33,7 @@ sync_playlists() {
     spotdl sync "$playlist" \
       --threads "$THREADS" \
       --save-file ".spotdl/${name}.spotdl" \
-      --m3u "Playlists/${name}.m3u" \
+      --m3u "/music/${name}.m3u" \
       --output "Playlists/${name}/{list-position} - {artists} - {title}.{output-ext}" \
       --format mp3
   done
