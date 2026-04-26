@@ -1,9 +1,15 @@
 services:
   spotdl-sync:
-    build: .
+    image: ghcr.io/joseph-ryan8/docker-spotdl-sync:latest
     container_name: spotdl-sync
     volumes:
       - /data/media/music:/music
     environment:
       - PLAYLISTS=non-house:https://open.spotify.com/playlist/5Ez8elMwhbdzviNPalVkOE,house:https://open.spotify.com/playlist/7Lg38dS7n9e9TLzJ7XWHTH
+      # if you want it to ping jellyfin when done configure below otherwise set to false
+      - PING_JELLYFIN=true
+      - JELLYFIN_URL=http://192.168.1.100:8096
+      - JELLYFIN_TOKEN=yourtoken
+      - THREADS=4
+      - SYNC_INTERVAL=7200
     restart: unless-stopped
