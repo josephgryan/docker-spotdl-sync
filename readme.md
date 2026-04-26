@@ -1,3 +1,8 @@
+## function
+provides a way for people who host media servers to sync their spotify playlist(s) in a functional, and easy way.
+
+currently supports jellyfin and standalone (no media server) operations.
+
 ## Install
 Put this into a new compose file or add it to your existing stack and configure:
 
