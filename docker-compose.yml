@@ -5,5 +5,5 @@ services:
     volumes:
       - /data/media/music:/music
     environment:
-      - PLAYLISTS=https://open.spotify.com/playlist/5Ez8elMwhbdzviNPalVkOE?si=bb799f7541574847,https://open.spotify.com/playlist/7Lg38dS7n9e9TLzJ7XWHTH?si=1797d533544b449b
+      - PLAYLISTS=non-house:https://open.spotify.com/playlist/5Ez8elMwhbdzviNPalVkOE,house:https://open.spotify.com/playlist/7Lg38dS7n9e9TLzJ7XWHTH
     restart: unless-stopped
