@@ -1,8 +1,7 @@
 FROM python:3.12-alpine
 
-RUN apk add --no-cache ffmpeg git \
- && pip install --no-cache-dir git+https://github.com/TzurSoffer/spotify-downloader
- 
+RUN apk add --no-cache ffmpeg git libresolv \
+  && pip install --no-cache-dir git+https://github.com/TzurSoffer/spotify-downloader 
 WORKDIR /app
 
 COPY entrypoint.sh .
