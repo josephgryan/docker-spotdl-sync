@@ -3,6 +3,7 @@ provides a way for people who host media servers to sync their spotify playlist(
 
 currently supports jellyfin and standalone (no media server) operations.
 
+passes 2 times once via youtube music and once via youtube to make sure you get the best matches and quality when possible
 ## Install
 Put this into a new compose file or add it to your existing stack and configure:
 

@@ -28,14 +28,23 @@ sync_playlists() {
     cd /music
     mkdir -p "Playlists/${name}" .spotdl
 
-    echo "Syncing playlist: $name"
+    echo "Syncing playlist: $name (round 1 - YouTube Music)"
+    spotdl sync "$playlist" \
+      --threads "$THREADS" \
+      --audio youtube-music \
+      --ytm-data \
+      --save-file ".spotdl/${name}.spotdl" \
+      --m3u "${name}.m3u" \
+      --output "Playlists/${name}/{list-position} - {artists} - {title}.{output-ext}" \
+      --format mp3
 
-spotdl sync "$playlist" \
-  --threads "$THREADS" \
-  --save-file ".spotdl/${name}.spotdl" \
-  --m3u "${name}.m3u" \
-  --output "Playlists/${name}/{list-position} - {artists} - {title}.{output-ext}" \
-  --format mp3
+    echo "Syncing playlist: $name (round 2 - YouTube fallback)"
+    spotdl sync "$playlist" \
+      --threads "$THREADS" \
+      --save-file ".spotdl/${name}.spotdl" \
+      --m3u "${name}.m3u" \
+      --output "Playlists/${name}/{list-position} - {artists} - {title}.{output-ext}" \
+      --format mp3
   done
 }
 
