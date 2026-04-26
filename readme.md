@@ -1,21 +1,18 @@
-
-
-install:
-
-put this into a new compose file or put this into your allready made compose stack and configure
+## Install
+Put this into a new compose file or add it to your existing stack and configure:
 
 ```yaml
 services:
   spotdl-sync:
-    build: .
+    image: ghcr.io/joseph-ryan8/docker-spotdl-sync:latest
     container_name: spotdl-sync
     volumes:
       # set /data/media/music to whatever you would like
       - /data/media/music:/music
     environment:
-      #playlists in the format of name:url,name:url and so on
-      - PLAYLISTS=non-house:https://open.spotify.com/playlist/5Ez8elMwhbdzviNPalVkOE,house:https://open.spotify.com/playlist/7Lg38dS7n9e9TLzJ7XWHTH
-      # if you want it to ping jellyfin when done configure below otherwise set to false
+      # playlists in the format of name:url,name:url and so on
+      - PLAYLISTS=name:https://open.spotify.com/playlist/id,name:https://open.spotify.com/playlist/id
+      # if you want it to ping jellyfin when done, configure below, otherwise set to false
       - PING_JELLYFIN=true
       - JELLYFIN_URL=http://192.168.1.100:8096
       - JELLYFIN_TOKEN=yourtoken
