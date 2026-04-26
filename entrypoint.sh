@@ -6,19 +6,17 @@ sync_playlists() {
     entry=$(echo "$entry" | tr -d '[:space:]')
     name=$(echo "$entry" | cut -d':' -f1)
     playlist=$(echo "$entry" | cut -d':' -f2-)
-    output_dir="/music/Playlists/${name}"
 
-    mkdir -p "$output_dir" /music/.spotdl
+    cd /music
+    mkdir -p "Playlists/${name}" .spotdl
 
     echo "Syncing playlist: $name"
 
-    cd /music
-
     spotdl sync "$playlist" \
-      --threads 1 \
-      --save-file "/music/.spotdl/${name}.spotdl" \
-      --m3u "/music/Playlists/${name}.m3u" \
-      --output "${output_dir}/{list-position} - {artists} - {title}.{output-ext}" \
+      --threads 4 \
+      --save-file ".spotdl/${name}.spotdl" \
+      --m3u "Playlists/${name}.m3u" \
+      --output "Playlists/${name}/{list-position} - {artists} - {title}.{output-ext}" \
       --format mp3
   done
 }
