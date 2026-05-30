@@ -1,6 +1,5 @@
 #!/bin/sh
 set -e
-
 SYNC_INTERVAL=${SYNC_INTERVAL:-7200}
 THREADS=${THREADS:-4}
 PING_JELLYFIN=${PING_JELLYFIN:-false}
@@ -29,14 +28,16 @@ sync_playlists() {
     mkdir -p "Playlists/${name}" .spotdl
 
     echo "Syncing playlist: $name (round 1 - YouTube Music)"
-    spotdl sync "$playlist" \
+    if ! spotdl sync "$playlist" \
       --threads "$THREADS" \
       --audio youtube-music \
       --ytm-data \
       --save-file ".spotdl/${name}.spotdl" \
       --m3u "${name}.m3u" \
       --output "Playlists/${name}/{list-position} - {artists} - {title}.{output-ext}" \
-      --format mp3
+      --format mp3; then
+      echo "Round 1 (YouTube Music) failed for '$name', continuing to round 2..."
+    fi
 
     echo "Syncing playlist: $name (round 2 - YouTube fallback)"
     spotdl sync "$playlist" \
