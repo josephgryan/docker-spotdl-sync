@@ -58,6 +58,8 @@ Smooth out bugs relating to unexpected behavior.
 
 Embed better metadata and fix metadata for the media servers.
 
+Imported cover image?
+
 ## License
 
 General Public License v3.0. Not much else to say, if you really want to make a fork or something you must use this in your project, and you may redistribute, modify, copy, edit, and install freely.
