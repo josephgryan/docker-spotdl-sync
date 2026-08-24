@@ -50,6 +50,8 @@ For security issues if any even happen or issues effecting other software, email
 
 ## Current Plans
 
+Remake the AI slop.
+
 Add author and album support.
 
 Smooth out bugs with different media server programs.
