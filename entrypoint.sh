@@ -21,30 +21,44 @@ ping_jellyfin() {
 sync_playlists() {
   echo "$PLAYLISTS" | tr ',' '\n' | while IFS= read -r entry; do
     entry=$(echo "$entry" | tr -d '[:space:]')
+    [ -z "$entry" ] && continue
+    
     name=$(echo "$entry" | cut -d':' -f1)
     playlist=$(echo "$entry" | cut -d':' -f2-)
 
     cd /music
     mkdir -p "Playlists/${name}" .spotdl
 
-    echo "Syncing playlist: $name (round 1 - YouTube Music)"
+    # DYNAMIC TEMPLATE CHECK:
+    # If the URL contains "artist" or "album", use an album-sorted naming style.
+    # Otherwise, assume it's a standard playlist and include the track positions cleanly.
+    case "$playlist" in
+      *artist*|*album*)
+        echo "Configuring Discography template for: $name"
+        OUTPUT_TEMPLATE="Playlists/${name}/{album}/{artists} - {title}.{output-ext}"
+        ;;
+      *)
+        echo "Configuring Playlist template for: $name"
+        OUTPUT_TEMPLATE="Playlists/${name}/{list-position} - {artists} - {title}.{output-ext}"
+        ;;
+    esac
+
+    echo "Syncing collection: $name (round 1 - YouTube Music)"
     if ! spotdl sync "$playlist" \
       --threads "$THREADS" \
       --audio youtube-music \
       --ytm-data \
       --save-file ".spotdl/${name}.spotdl" \
-      --m3u "${name}.m3u" \
-      --output "Playlists/${name}/{list-position} - {artists} - {title}.{output-ext}" \
+      --output "$OUTPUT_TEMPLATE" \
       --format mp3; then
       echo "Round 1 (YouTube Music) failed for '$name', continuing to round 2..."
     fi
 
-    echo "Syncing playlist: $name (round 2 - YouTube fallback)"
+    echo "Syncing collection: $name (round 2 - YouTube fallback)"
     spotdl sync "$playlist" \
       --threads "$THREADS" \
       --save-file ".spotdl/${name}.spotdl" \
-      --m3u "${name}.m3u" \
-      --output "Playlists/${name}/{list-position} - {artists} - {title}.{output-ext}" \
+      --output "$OUTPUT_TEMPLATE" \
       --format mp3
   done
 }
